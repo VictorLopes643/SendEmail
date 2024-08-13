@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"  # Porta padrão do RabbitMQ para comunicação com clientes
+      - "15672:15672"  # Porta padrão do RabbitMQ Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  go-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: go-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - rabbitmq
+    # environment:
+    #   RABBITMQ_URL: amqp://user:password@rabbitmq:5672/
