@@ -11,6 +11,8 @@ type conf struct {
 	EmailPort   int    `mapstructure:"EMAIL_PORT"`
 	EmailUser   string `mapstructure:"EMAIL_USER"`
 	EmailPass   string `mapstructure:"EMAIL_PASS"`
+	EmailFrom   string `mapstructure:"EMAIL_FROM"`
+	EmailTo     string `mapstructure:"EMAIL_TO"`
 }
 
 func LoadConfig(path string) (*conf, error) {

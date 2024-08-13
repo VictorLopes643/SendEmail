@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/victorLopes643/sendEmail-GO/config"
 	"github.com/victorLopes643/sendEmail-GO/infra/email"
 	"github.com/victorLopes643/sendEmail-GO/infra/queue"
 	"github.com/victorLopes643/sendEmail-GO/internal/usecase"
@@ -18,6 +19,8 @@ type EmailOptions struct {
 }
 
 func handlerMessage(exchangeName, queueName string) {
+	cfg, _ := config.LoadConfig(".")
+
 	rabbitMQAdapter := &queue.RabbitMQAdapter{}
 	_, err := rabbitMQAdapter.Connect()
 	if err != nil {
@@ -27,8 +30,8 @@ func handlerMessage(exchangeName, queueName string) {
 	}
 	for i := 0; i < 10; i++ {
 		emailOptions := EmailOptions{
-			From:    "victorlopes560@gmail.com",
-			To:      "victorlopes560@gmail.com",
+			From:    cfg.EmailFrom,
+			To:      cfg.EmailTo,
 			Subject: fmt.Sprintf("Assunto do E-mail %d", i),
 			Body:    "Corpo do e-mail",
 		}
